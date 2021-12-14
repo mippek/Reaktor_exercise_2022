@@ -1,8 +1,12 @@
-
+import React from 'react';
+import Games from './Games';
 
 const App = () => {
   return (
-    <h1> Rock, paper, scissors</h1>
+    <div>
+      <h1> Rock, Paper, Scissors</h1>
+      <Games />
+    </div>
   );
 }
 

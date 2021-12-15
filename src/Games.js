@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const Games = () => {
@@ -13,12 +12,15 @@ const Games = () => {
     ws.onmessage = (event) => {
       const response = JSON.parse(event.data);
       const newObj = JSON.parse(response);
-      console.log(newObj);
-      let ongoingGames = [ ...games, newObj ];
-      if (newObj.type === 'GAME_RESULT') {
-        ongoingGames = ongoingGames.filter( obj => obj.type !== 'GAME_RESULT' && obj.gameId !== newObj.gameId);
+      //console.log(newObj);
+      const addGame = (oldGames, newGame) => {
+        let ongoingGames = [ ...oldGames, newGame ];
+        if (newGame.type === 'GAME_RESULT') {
+          ongoingGames = ongoingGames.filter( obj => obj.type !== 'GAME_RESULT' && obj.gameId !== newGame.gameId);
+        }
+        return ongoingGames;
       }
-      setGames(ongoingGames);
+      setGames(ongoingGames => addGame(ongoingGames, newObj));
     };
     ws.onclose = () => {
       console.log("websocket closed");
@@ -28,7 +30,7 @@ const Games = () => {
     return () => {
       ws.close();
     };
-  }, [games]);
+  }, []);
 
   const gameRow = (obj) =>
     Object.entries(obj).map(([key, value]) => {
@@ -51,7 +53,7 @@ const Games = () => {
 
   return (
     <div className="order-container">
-      <p>Ongoing Games:</p>
+      <h2>Ongoing Games</h2>
       <table>
         <tbody>{gameRows(games)}</tbody>
       </table>

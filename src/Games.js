@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-const Games = () => {
-  const [games, setGames] = useState([]);
+const gameKeys = ['gameId', 'playerA', 'playerB'];
+
+const Games = ({ games, addGame }) => {
+  //const [games, setGames] = useState([]);
 
   useEffect(() => {
     const ws = new WebSocket('wss://bad-api-assignment.reaktor.com/rps/live');
@@ -12,15 +14,8 @@ const Games = () => {
     ws.onmessage = (event) => {
       const response = JSON.parse(event.data);
       const newObj = JSON.parse(response);
-      //console.log(newObj);
-      const addGame = (oldGames, newGame) => {
-        let ongoingGames = [ ...oldGames, newGame ];
-        if (newGame.type === 'GAME_RESULT') {
-          ongoingGames = ongoingGames.filter( obj => obj.type !== 'GAME_RESULT' && obj.gameId !== newGame.gameId);
-        }
-        return ongoingGames;
-      }
-      setGames(ongoingGames => addGame(ongoingGames, newObj));
+      console.log(newObj);
+      addGame(newObj);
     };
     ws.onclose = () => {
       console.log("websocket closed");
@@ -30,18 +25,19 @@ const Games = () => {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [addGame]);
 
   const gameRow = (obj) =>
-    Object.entries(obj).map(([key, value]) => {
-        if (key === 'playerA' || key === 'playerB') {
-            return Object.entries(value).map(([playerKey, playerValue]) =>
-            <td key={`${key}${playerKey}`}> {key}, {playerKey}: {playerValue}</td>
-            )
-        }
-        return(
-          <td key={key}> {key}: {value} </td>
-    )});
+    Object.entries(obj).filter(([key, value]) => gameKeys.includes(key))
+                       .map(([key, value]) => {
+                         if (key === 'playerA' || key === 'playerB') {
+                           return Object.entries(value).map(([playerKey, playerValue]) =>
+                              <td key={`${key}${playerKey}`}> {key}, {playerKey}: {playerValue}</td>
+                           )
+                         }
+                         return(
+                            <td key={key}> {key}: {value} </td>
+                       )});
 
   const gameRows = (arr) =>
     arr &&
@@ -52,12 +48,11 @@ const Games = () => {
     ));
 
   return (
-    <div className="order-container">
+    <div>
       <h2>Ongoing Games</h2>
       <table>
         <tbody>{gameRows(games)}</tbody>
       </table>
-      
     </div>
   );
 };

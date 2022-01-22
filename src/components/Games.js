@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const gameKeys = ['gameId', 'playerA', 'playerB'];
+//const gameKeys = ['gameId', 'playerA', 'playerB'];
 
 const Games = ({ games, addGame }) => {
   //const [games, setGames] = useState([]);

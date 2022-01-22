@@ -1,7 +1,14 @@
 body {
   background-color: #2A4554;
-  margin: 20;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
   font-family: sans-serif;
+}
+
+header {
+  margin-bottom: 2rem;
 }
 
 h1, h4 {

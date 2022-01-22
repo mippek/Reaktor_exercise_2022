@@ -31,7 +31,9 @@ const App = () => {
 
   return (
     <div>
-      <img alt="Rock, Paper, Scissors" width="200" src={logo}/>
+      <div className="header">
+        <img alt="Rock, Paper, Scissors" width="200" src={logo}/>
+      </div>
       <Games games={games} addGame={addGame} />
       <History players={players} addGamesForPlayers={addGamesForPlayers}/>
     </div>

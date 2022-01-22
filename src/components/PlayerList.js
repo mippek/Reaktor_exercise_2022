@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Togglable from './Togglable';
-import PlayerGames from './PlayerGames';
+import GameListComponent from './GameListComponent';
+import PlayerPagination from './Pagination';
 import ROCK from '../images/rock.png';
 import PAPER from '../images/paper.png';
 import SCISSORS from '../images/scissors.png';
 
 //const gameKeys = ['gameId', 'playerA', 'playerB'];
 const handToImage = { ROCK, PAPER, SCISSORS };
+const DATAPERPAGE = 5;
+
+const PlayerGames = ({ games }) => (
+  <div>
+    <h4>Games</h4> 
+    <div className="container">
+      <div className="game-list-container">
+        <GameListComponent games={games}/>
+      </div>
+    </div>
+  </div>
+);
 
 const PlayerData = ({ player }) => {
   const playerName = player[0];
@@ -40,12 +53,6 @@ const PlayerData = ({ player }) => {
     return [max, handToImage[max]];
   }
 
-  /*
-   <Togglable buttonLabel='show'>
-    <PlayerGames games={games.slice(0, 5)}/>
-    </Togglable>
-  */
-
   return (
     <div className="table-row history-row">
       <div className="history-flex-container">
@@ -68,4 +75,32 @@ const PlayerData = ({ player }) => {
   )
 };
 
-export default PlayerData;
+const PlayerList = ({ players }) => {
+  const [currentPlayers, setCurrentPlayers] = useState(players.slice(0, DATAPERPAGE));
+
+  const updateData = (firstIndex, lastIndex) => {
+    setCurrentPlayers(players.slice(firstIndex, lastIndex));
+  };
+
+  const pageCount = Math.ceil(players.length / DATAPERPAGE);
+
+  const playerRows = (currentPlayers) => {
+    const actualPlayers = currentPlayers.length === 0 ? players.slice(0, DATAPERPAGE) : currentPlayers;
+    return (
+      <div>
+        {actualPlayers.map((player, index) => (
+          <PlayerData player={player} key={index}/>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>{ playerRows(currentPlayers) }</div>
+      <PlayerPagination pageCount={pageCount} dataPerPage={DATAPERPAGE} updateData={updateData} />
+    </div>
+  )
+}
+
+export default PlayerList;

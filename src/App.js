@@ -1,18 +1,19 @@
 import React, { useState, useCallback } from 'react';
-import Games from './Games';
-import History from './History';
+import Games from './components/Games';
+import History from './components/History';
+import logo from './images/logo.png';
 
 const App = () => {
   const [games, setGames] = useState([]);
   const [players, setPlayers] = useState(new Map());
 
-  const addGamesForPlayers = useCallback( (obj) => {
+  const addGamesForPlayers = useCallback( (newGame) => {
     setPlayers(oldPlayers => {
       const newMap = new Map(oldPlayers);
-      const gamesA = newMap.has(obj.playerA.name) ? [...newMap.get(obj.playerA.name), obj] : [obj];
-      const gamesB = newMap.has(obj.playerB.name) ? [...newMap.get(obj.playerB.name), obj] : [obj];
-      newMap.set(obj.playerA.name, gamesA);
-      newMap.set(obj.playerB.name, gamesB);
+      const gamesA = newMap.has(newGame.playerA.name) ? [...newMap.get(newGame.playerA.name), newGame] : [newGame];
+      const gamesB = newMap.has(newGame.playerB.name) ? [...newMap.get(newGame.playerB.name), newGame] : [newGame];
+      newMap.set(newGame.playerA.name, gamesA);
+      newMap.set(newGame.playerB.name, gamesB);
       return newMap;
     });
   }, [])
@@ -30,7 +31,7 @@ const App = () => {
 
   return (
     <div>
-      <h1> Rock, Paper, Scissors</h1>
+      <img alt="Rock, Paper, Scissors" width="200" src={logo}/>
       <Games games={games} addGame={addGame} />
       <History players={players} addGamesForPlayers={addGamesForPlayers}/>
     </div>

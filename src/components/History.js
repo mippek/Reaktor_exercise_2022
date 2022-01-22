@@ -1,44 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import PlayerData from './PlayerData'
 
 //const baseUrl = 'https://bad-api-assignment.reaktor.com';
 
 const History = ({ players, addGamesForPlayers }) => {
   const [cursor, setCursor] = useState('/rps/history');
+  const [loading, setLoading] = useState(false); 
   //const [endedGames, setEndedGames] = useState([]);
   //const [players, setPlayers] = useState(new Map());
 
   useEffect(() => {
     if (cursor !== null) {
+      setLoading(oldValue => true);
       axios
         .get(`${cursor}`)
         .then((response) => {
           setCursor(response.data.cursor);
           console.log(response.data.cursor);
-          response.data.data.forEach((obj) => addGamesForPlayers(obj));
+          response.data.data.forEach((newObj) => addGamesForPlayers(newObj));
           //setEndedGames(games => [ ...games, ...response.data.data ]);
         })
         .catch((e) => {
             console.log(e);
         });
+    } else {
+      setLoading(oldValue => false);
     }
   }, [cursor, addGamesForPlayers])
   //console.log(players);
 
-  const playerRows = (map) => 
-      [...map].slice(0, 10).map((player, index) => (
-        <tr key={index}>
-          <td>{player[0]}</td>
-          <td>{player[1].length}</td>
-        </tr>
+  const playerRows = (playerMap) => 
+      [...playerMap].slice(0, 5).map((player, index) => (
+        <PlayerData player={player} key={index}/>
       ));
+  const loadingText = 'Loading...';
 
   return (
     <div>
-      <h2>History</h2>
-      <table>
-        <tbody>{playerRows(players)}</tbody>
-      </table>
+      <h1>History</h1>
+      {loading 
+        ? loadingText
+        : ''
+      }
+      <div>
+        <div>{ playerRows(players) }</div>
+      </div>
     </div>
 
   );

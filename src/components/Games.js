@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const gameKeys = ['gameId', 'playerA', 'playerB'];
 
@@ -27,32 +27,40 @@ const Games = ({ games, addGame }) => {
     };
   }, [addGame]);
 
-  const gameRow = (obj) =>
-    Object.entries(obj).filter(([key, value]) => gameKeys.includes(key))
+  const gameRow = (game) =>
+    <div>
+      <h3>{game.gameId}</h3>
+      <div className="game-flex-container">
+        <h2>{game.playerA.name}</h2>
+        <h2>vs.</h2>
+        <h2>{game.playerB.name}</h2>
+      </div>
+    </div>
+   /*Object.entries(game).filter(([key, value]) => gameKeys.includes(key))
                        .map(([key, value]) => {
                          if (key === 'playerA' || key === 'playerB') {
                            return Object.entries(value).map(([playerKey, playerValue]) =>
-                              <td key={`${key}${playerKey}`}> {key}, {playerKey}: {playerValue}</td>
+                              <div key={`${key}${playerKey}`}> {playerValue}</div>
                            )
                          }
                          return(
-                            <td key={key}> {key}: {value} </td>
-                       )});
+                            <div key={key}> {value} </div>
+                       )});*/
 
-  const gameRows = (arr) =>
-    arr &&
-    arr.map((obj, index) => (
-      <tr key={index}>
-        {gameRow(obj)}
-      </tr>
+  const gameRows = (gameArr) =>
+    gameArr &&
+    gameArr.map((game, index) => (
+      <div className="table-row" key={index}>
+        {gameRow(game)}
+      </div>
     ));
 
   return (
     <div>
-      <h2>Ongoing Games</h2>
-      <table>
-        <tbody>{gameRows(games)}</tbody>
-      </table>
+      <h1>Ongoing Games</h1>
+      <div>
+        {gameRows(games)}
+      </div>
     </div>
   );
 };

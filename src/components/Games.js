@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 
-//const gameKeys = ['gameId', 'playerA', 'playerB'];
-
 const Games = ({ games, addGame }) => {
-  //const [games, setGames] = useState([]);
 
   useEffect(() => {
     const ws = new WebSocket('wss://bad-api-assignment.reaktor.com/rps/live');
@@ -36,16 +33,6 @@ const Games = ({ games, addGame }) => {
         <h2>{game.playerB.name}</h2>
       </div>
     </div>
-   /*Object.entries(game).filter(([key, value]) => gameKeys.includes(key))
-                       .map(([key, value]) => {
-                         if (key === 'playerA' || key === 'playerB') {
-                           return Object.entries(value).map(([playerKey, playerValue]) =>
-                              <div key={`${key}${playerKey}`}> {playerValue}</div>
-                           )
-                         }
-                         return(
-                            <div key={key}> {value} </div>
-                       )});*/
 
   const gameRows = (gameArr) =>
     gameArr &&

@@ -15,12 +15,14 @@ const GameRow = ({ data, index, style }) => {
         <div className="game-flex-container">
           <div>
             <h2>{game.playerA.name}</h2>
-            <img alt={handToImage[game.playerA.played]} width="50" src={handToImage[game.playerA.played]}/>
+            <img alt={game.playerA.played} width="50" src={handToImage[game.playerA.played]}/>
+            <p>{game.playerA.played}</p>
           </div>
           <h2>vs.</h2>
           <div>
             <h2>{game.playerB.name}</h2>
-            <img alt={handToImage[game.playerB.played]} width="50" src={handToImage[game.playerB.played]}/>
+            <img alt={game.playerB.played} width="50" src={handToImage[game.playerB.played]}/>
+            <p>{game.playerB.played}</p>
           </div>
         </div>
       </div>

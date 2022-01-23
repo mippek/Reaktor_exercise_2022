@@ -6,9 +6,8 @@ import ROCK from '../images/rock.png';
 import PAPER from '../images/paper.png';
 import SCISSORS from '../images/scissors.png';
 
-//const gameKeys = ['gameId', 'playerA', 'playerB'];
 const handToImage = { ROCK, PAPER, SCISSORS };
-const DATAPERPAGE = 5;
+const DATA_PER_PAGE = 5;
 
 const PlayerGames = ({ games }) => (
   <div>
@@ -50,8 +49,10 @@ const PlayerData = ({ player }) => {
       return hand;
     }, {})
     const max = Object.keys(playedHands).reduce( (a, b) => playedHands[a] > playedHands[b] ? a : b );
-    return [max, handToImage[max]];
+    return max;
   }
+
+  const hand = mostPlayedHand(playerName, games);
 
   return (
     <div className="table-row history-row">
@@ -63,7 +64,8 @@ const PlayerData = ({ player }) => {
         </div>
         <div>
           <h3>most played hand</h3>
-          <img alt={mostPlayedHand(playerName, games)[0]} width="100" src={mostPlayedHand(playerName, games)[1]}/>
+          <img alt={hand} width="100" src={handToImage[hand]}/>
+          <p>{hand}</p>
         </div>
       </div>
       <div>
@@ -76,16 +78,16 @@ const PlayerData = ({ player }) => {
 };
 
 const PlayerList = ({ players }) => {
-  const [currentPlayers, setCurrentPlayers] = useState(players.slice(0, DATAPERPAGE));
+  const [currentPlayers, setCurrentPlayers] = useState(players.slice(0, DATA_PER_PAGE));
 
   const updateData = (firstIndex, lastIndex) => {
     setCurrentPlayers(players.slice(firstIndex, lastIndex));
   };
 
-  const pageCount = Math.ceil(players.length / DATAPERPAGE);
+  const pageCount = Math.ceil(players.length / DATA_PER_PAGE);
 
   const playerRows = (currentPlayers) => {
-    const actualPlayers = currentPlayers.length === 0 ? players.slice(0, DATAPERPAGE) : currentPlayers;
+    const actualPlayers = currentPlayers.length === 0 ? players.slice(0, DATA_PER_PAGE) : currentPlayers;
     return (
       <div>
         {actualPlayers.map((player, index) => (
@@ -98,7 +100,7 @@ const PlayerList = ({ players }) => {
   return (
     <div>
       <div>{ playerRows(currentPlayers) }</div>
-      <PlayerPagination pageCount={pageCount} dataPerPage={DATAPERPAGE} updateData={updateData} />
+      <PlayerPagination pageCount={pageCount} dataPerPage={DATA_PER_PAGE} updateData={updateData} />
     </div>
   )
 }

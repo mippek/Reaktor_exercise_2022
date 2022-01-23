@@ -29,13 +29,17 @@ const App = () => {
     });
   }, [addGamesForPlayers])
 
+  const updatePlayers = useCallback( (newPlayers) => {
+    setPlayers( oldPlayers => newPlayers );
+  }, [])
+
   return (
     <div>
       <div className="header">
         <img alt="Rock, Paper, Scissors" width="200" src={logo}/>
       </div>
       <Games games={games} addGame={addGame} />
-      <History players={players} addGamesForPlayers={addGamesForPlayers}/>
+      <History players={players} addGamesForPlayers={addGamesForPlayers} updatePlayers={updatePlayers}/>
     </div>
   );
 };

@@ -19,7 +19,6 @@ const PlayerPagination = ({ pageCount, dataPerPage, updateData }) => {
   })
 
   const paginationInlineStyle = {
-    //backgroundColor: '#18212B',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

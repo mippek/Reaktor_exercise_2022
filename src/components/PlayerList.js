@@ -9,6 +9,7 @@ import SCISSORS from '../images/scissors.png';
 const handToImage = { ROCK, PAPER, SCISSORS };
 const DATA_PER_PAGE = 5;
 
+// Component for listing the games a player has played
 const PlayerGames = ({ games }) => (
   <div>
     <h4>Games</h4> 
@@ -20,15 +21,18 @@ const PlayerGames = ({ games }) => (
   </div>
 );
 
+// Component for showing other data (win ratio, number of matches and most played hand) for a player
 const PlayerData = ({ player }) => {
   const playerName = player[0];
   const games = player[1];
 
+  // Rules for determining which hand wins
   const winningRules = (myHand, otherHand) => {
     return (myHand === 'ROCK' && otherHand === 'SCISSORS') || (myHand === 'PAPER' && otherHand === 'ROCK') || (myHand === 'SCISSORS' && otherHand === 'ROCK') 
             ? 'WIN' 
             : 'LOSE';
   }
+  // Count the win ratio of all games
   const winRatio = (player, games) => {
     const gameScores = games.reduce( (score, game) => {
       const myHand = game.playerA.name === player ? game.playerA.played : game.playerB.played;
@@ -39,9 +43,11 @@ const PlayerData = ({ player }) => {
     }, {})
     return `${gameScores.WIN}/${gameScores.LOSE}`;
   }
+  // Count the number of all games
   const numberOfMatches = (games) => {
     return games.length;
   }
+  // Count the most played hand of all games
   const mostPlayedHand = (player, games) => {
     const playedHands = games.reduce( (hand, game) => {
       const newHand = game.playerA.name === player ? game.playerA.played : game.playerB.played;
@@ -77,7 +83,9 @@ const PlayerData = ({ player }) => {
   )
 };
 
+// Compponent for listing all players and their data
 const PlayerList = ({ players }) => {
+  // Currently shown players for pagination as only DATA_PER_PAGE players are shown at a time 
   const [currentPlayers, setCurrentPlayers] = useState(players.slice(0, DATA_PER_PAGE));
 
   const updateData = (firstIndex, lastIndex) => {
@@ -86,6 +94,7 @@ const PlayerList = ({ players }) => {
 
   const pageCount = Math.ceil(players.length / DATA_PER_PAGE);
 
+  // Create the rows for player data
   const playerRows = (currentPlayers) => {
     const actualPlayers = currentPlayers.length === 0 ? players.slice(0, DATA_PER_PAGE) : currentPlayers;
     return (

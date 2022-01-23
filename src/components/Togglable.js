@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+// Component for toggling the list of games for each player to only show the games when the button 
+// show games is clicked
 const Togglable = (props) => {
   const [visible, setVisible] = useState(false);
 

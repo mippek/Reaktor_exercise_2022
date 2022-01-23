@@ -7,14 +7,18 @@ const loadingText = 'Loading...';
 const REFRESH_INTERVAL = 1000 * 60 * 60; // 60 minutes
 
 const History = ({ players, addGamesForPlayers, updatePlayers }) => {
+  // cursor for the initial fetch of data from /rps/history
   const [cursor, setCursor] = useState('/rps/history');
   const [loading, setLoading] = useState(false); 
 
+  // temporary cursor and players for refreshing player data from /rps/history after the initial fetch
   const tempCursor = useRef('/rps/history');
   const error = useRef(false);
   const tempPlayers = useRef(new Map());
 
+  // initially fetch data
   useEffect(() => {
+    // fetch data with a new cursor until the cursor returns null
     if (cursor !== null) {
       setLoading(oldValue => true);
       axios
@@ -33,8 +37,8 @@ const History = ({ players, addGamesForPlayers, updatePlayers }) => {
     }
   }, [cursor, addGamesForPlayers])
 
+  // set an interval for a REFRESH_INTERVAL time to refetch data from /rps/history
   useEffect(() => {
-
     const fetchData = async () => {
       console.log('update started')
       try {

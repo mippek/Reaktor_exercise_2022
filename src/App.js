@@ -4,9 +4,13 @@ import History from './components/History';
 import logo from './images/logo.png';
 
 const App = () => {
+  // ongoing games
   const [games, setGames] = useState([]);
+  // history data of players
   const [players, setPlayers] = useState(new Map());
 
+
+  // add games fetched from /rps/history to correct players
   const addGamesForPlayers = useCallback( (newGame) => {
     setPlayers(oldPlayers => {
       const newMap = new Map(oldPlayers);
@@ -18,6 +22,7 @@ const App = () => {
     });
   }, [])
 
+  // add games received from /rps/live to games and game results to correct players 
   const addGame = useCallback( (newGame) => {
     setGames(oldGames => {
       let ongoingGames = [ ...oldGames, newGame ];
@@ -29,6 +34,7 @@ const App = () => {
     });
   }, [addGamesForPlayers])
 
+  // update player data when data from /rps/history has been refetched
   const updatePlayers = useCallback( (newPlayers) => {
     setPlayers( oldPlayers => newPlayers );
   }, [])

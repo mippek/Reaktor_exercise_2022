@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 const Games = ({ games, addGame }) => {
 
+  // Open a websocket for continuously fetching data from /rps/live
   useEffect(() => {
     const ws = new WebSocket('wss://bad-api-assignment.reaktor.com/rps/live');
 
@@ -24,6 +25,7 @@ const Games = ({ games, addGame }) => {
     };
   }, [addGame]);
 
+  // Create one row for a game that shows all game information
   const gameRow = (game) =>
     <div>
       <h3>{game.gameId}</h3>
@@ -34,6 +36,7 @@ const Games = ({ games, addGame }) => {
       </div>
     </div>
 
+  // Create own rows for each game
   const gameRows = (gameArr) =>
     gameArr &&
     gameArr.map((game, index) => (

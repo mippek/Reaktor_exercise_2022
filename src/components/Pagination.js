@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+// Pagination for showing only a part of the players
 const PlayerPagination = ({ pageCount, dataPerPage, updateData }) => {
   const [ page, setPage ] = useState(1)
 
@@ -12,12 +13,12 @@ const PlayerPagination = ({ pageCount, dataPerPage, updateData }) => {
     updateData(firstPageIndex, lastPageIndex)
   }
 
+  // Change pagination style
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
     }
   })
-
   const paginationInlineStyle = {
     display: 'flex',
     alignItems: 'center',

@@ -6,6 +6,7 @@ import SCISSORS from '../images/scissors.png';
 
 const handToImage = { ROCK, PAPER, SCISSORS };
 
+// Create one row for a game that shows all game information
 const GameRow = ({ data, index, style }) => {
   const game = data[index];
   return (
@@ -30,6 +31,7 @@ const GameRow = ({ data, index, style }) => {
   );
 }
 
+// Create own rows for each game, only show one game at a time using react-window
 const GameListComponent = ({ games }) => (
   <FixedSizeList
     height={200}
